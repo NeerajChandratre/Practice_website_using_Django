@@ -1,0 +1,15 @@
+<h2>Check Pizza Order Status</h2>
+<form method="POST">
+    {%csrf_token %}
+    <label>Enter your order number:</label>
+    <input type="text" name="order_id" placeholder="e.g. 5">
+    <button type="submit">Check status</button>
+</form>
+
+{% if status %}
+    <p><strong>Order status is: </strong> {{ status }}</p>
+{% endif %}
+
+{% if error %}
+    <p style="color:red"> {{ error }}</p>
+{% endif %}

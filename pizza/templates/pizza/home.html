@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Neeraj's Pizza Shop</title>
+        <style>
+            body {
+                font-family: Arial;
+                text-align: center;
+                padding: 50px;
+                background: burlywood;
+            }
+            h1 {
+                margin-bottom: 40px;
+            }
+            .btn {
+                display: inline-block;
+                padding: 15px 25px;
+                margin: 10px;
+                background: lightcoral;
+                color: white;
+                font-size: 18px;
+                text-decoration: none;
+                border-radius: 8px;
+                transition: 0.3s;
+            }
+            .btn:hover {
+                background: blueviolet;
+            }
+            .employee {
+                background: red;
+            }
+            .employee:hover {
+                background: blueviolet;
+            }
+        </style>
+    </head>
+ <body>
+    <h1> Welcome to Neeraj's pizza shop</h1>
+    <a href="{% url 'pizza_chat' %}" class="btn">Order Pizza</a>
+    <!-- <a href="{% url 'place_order' %}" class="btn"> Order Pizza</a> -->
+    <a href="{% url 'check_order_status' %}" class="btn"> Check Pizza Status</a>
+    <a href="{% url 'employee_dashboard' %}" class="btn employee"> Stock Dashboard </a>
+  </body>
+</html>

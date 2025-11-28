@@ -1,0 +1,59 @@
+<h2>Pizza AI Chat</h2>
+
+<input id="customer" placeholder="Enter your name" style="width:70%">
+<br><br>
+
+<div id="chat-box" style="border:1px solid #ccc;padding:10px;height:300px;overflow-y:scroll;"></div>
+
+<input id="msg" placeholder="Type your pizza request…" style="width:70%">
+<button onclick="sendMessage()">Send</button>
+
+<script>
+
+
+
+function addToChat(role, text) {
+    const box = document.getElementById("chat-box");
+
+    if(typeof text === "object") {
+    text = JSON.stringify(text,null,2);
+    box.innerHTML += `<p><strong>${role}:</strong> <pre>${text}</pre></p>`;
+    }
+    else {
+        box.innerHTML += `<p><strong>${role}:</strong> ${text}</p>`;
+    }
+    
+    box.scrollTop = box.scrollHeight;
+}
+
+
+
+
+function sendMessage() {
+    let text = document.getElementById("msg").value;
+    let customer = document.getElementById("customer").value;
+    //if (!text.trim()) return;
+    addToChat("You", text);
+
+    fetch("/pizza-chat/", {
+        method: "POST",
+        headers: {"X-CSRFToken": "{{ csrf_token }}"},
+        body: new URLSearchParams({message: text, customer_name: customer})
+    })
+    .then(res => res.json())
+    .then(data => {
+
+        addToChat("AI", data.ai_message);
+        if (data.order_id) 
+        {
+            addToChat("System", "Order confirmed! Redirecting to order status...");
+            // ai_msg.order_id = 0
+
+            setTimeout(()=>{
+                window.location.href = `/order/${data.order_id}/`;
+            }, 2000);
+        }
+        document.getElementById("msg").value = "";
+    });
+}
+</script>
